@@ -4,9 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
 import com.banking.transaction.model.Customer;
 import com.banking.transaction.repository.CustomerRepository;
 
@@ -15,6 +14,10 @@ public class CustomerService {
 	
 	@Autowired
 	CustomerRepository customerRepository;
+	
+	public Customer getCustomer(String customerId){
+		return customerRepository.findById(customerId).get();
+	}
 	
 	public List<Customer> getCustomers(){
 		return customerRepository.findAll();

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,12 @@ public class CustomerController {
 	public ResponseEntity<List<Customer>> getCustomers(){
 		List<Customer> listCustomer=customerService.getCustomers();
 		return ResponseEntity.status(OK).body(listCustomer);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Customer> getCustomer(@PathVariable("id") String customerId){
+		Customer customer=customerService.getCustomer(customerId);
+		return ResponseEntity.status(OK).body(customer);
 	}
 	
 	@PostMapping("/save")
