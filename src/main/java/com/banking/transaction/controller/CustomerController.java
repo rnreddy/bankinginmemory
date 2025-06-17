@@ -54,7 +54,7 @@ public class CustomerController {
 		else return null;
 	}
 	
-	@DeleteMapping("/delete/{customerId}")
+	@DeleteMapping("/delete")
 	public ResponseEntity<String> delete(@RequestParam String customerId){
 		if(customerService.delete(customerId)) 
 		return ResponseEntity.status(OK).body("Successfully Deleted");
