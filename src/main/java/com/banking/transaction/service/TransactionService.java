@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.banking.transaction.model.Transactions;
 import com.banking.transaction.repository.TransactionRepository;
 
@@ -17,6 +18,11 @@ public class TransactionService {
 	public List<Transactions> getTransactions(){
 		return transactionRepository.findAll();
 	}
+	
+	public Transactions getTransaction(String transactionId){
+		return transactionRepository.findById(transactionId).get();
+	}
+	
 	
 	public Transactions saveTransactions(Transactions transactions){
 		return transactionRepository.save(transactions);

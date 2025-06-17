@@ -1,12 +1,13 @@
 package com.banking.transaction.controller;
 
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,9 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.ACCEPTED;
+
 import com.banking.transaction.model.Customer;
 import com.banking.transaction.service.CustomerService;
 
@@ -36,8 +35,8 @@ public class CustomerController {
 		return ResponseEntity.status(OK).body(listCustomer);
 	}
 	
-	@GetMapping("/{id}")
-	public ResponseEntity<Customer> getCustomer(@PathVariable("id") String customerId){
+	@GetMapping("/{customerId}")
+	public ResponseEntity<Customer> getCustomer(@PathVariable String customerId){
 		Customer customer=customerService.getCustomer(customerId);
 		return ResponseEntity.status(OK).body(customer);
 	}
@@ -47,12 +46,15 @@ public class CustomerController {
 		return ResponseEntity.status(CREATED).body(customerService.save(customer));
 	}
 	
-	@PutMapping("/update")
-	public ResponseEntity<Customer> udpate(@RequestBody Customer customer ){
-		return ResponseEntity.status(ACCEPTED).body(customerService.save(customer));
+	@PutMapping("/update/{customerId}")
+	public ResponseEntity<Customer> udpate(@PathVariable String customerId, @RequestBody Customer customer ){
+		Optional<Customer> esitingCustomer=Optional.ofNullable(customerService.getCustomer(customerId));
+		if(esitingCustomer.isPresent())
+		return ResponseEntity.status(ACCEPTED).body(customerService.update(customer));
+		else return null;
 	}
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{customerId}")
 	public ResponseEntity<String> delete(@RequestParam String customerId){
 		if(customerService.delete(customerId)) 
 		return ResponseEntity.status(OK).body("Successfully Deleted");
@@ -60,5 +62,12 @@ public class CustomerController {
 		return ResponseEntity.status(OK).body("unable to find customer");
 	}
 	
+	@DeleteMapping("/delete/{customerId}")
+	public ResponseEntity<String> deleteCustomer(@PathVariable String customerId){
+		if(customerService.delete(customerId)) 
+		return ResponseEntity.status(OK).body("Successfully Deleted");
+		 else 
+		return ResponseEntity.status(OK).body("unable to find customer");
+	}
 
 }
