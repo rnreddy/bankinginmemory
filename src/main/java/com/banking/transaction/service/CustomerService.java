@@ -2,6 +2,7 @@ package com.banking.transaction.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class CustomerService {
 	}
 	
 	public Customer save(Customer customer){
+		customer.setCustomerId(UUID.randomUUID().toString());
 		return customerRepository.save(customer);
 	}
 	

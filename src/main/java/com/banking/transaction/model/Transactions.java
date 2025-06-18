@@ -1,6 +1,7 @@
 package com.banking.transaction.model;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import jakarta.persistence.*;
 
@@ -33,7 +34,7 @@ public class Transactions {
     // Getters and Setters
 
     public Transactions() {
-		super();
+    	this.transactionId = UUID.randomUUID().toString();
 	}
     
     public Transactions(String transactionId, String accountId, LocalDate date, String type, double amount, String description, String currency) {

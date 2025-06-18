@@ -1,5 +1,7 @@
 package com.banking.transaction.model;
 
+import java.util.UUID;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -35,7 +37,6 @@ public class Customer {
     
     // Getters and Setters
     public Customer() {
-		super();
 	}
     public Customer(String customerId, String firstName, String lastName, String email, String phone, String accountId,
 			String street, String city, String state, String zipCode, String country) {
